@@ -10,10 +10,12 @@ import ViewportManager from '../utils/ViewportManager';
 const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecordingUpdate }, ref) => {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
+   const [isPanning, setIsPanning] = useState(false);
   const [recordedHistory, setRecordedHistory] = useState([]);
   const socketRef = useRef(null);
   const startTimeRef = useRef(null);
    const viewportRef = useRef(null);
+   const panStartRef = useRef(null);
     const { recordDraw, recordClear, undo, redo, canUndo, canRedo } = useUndoRedo(canvasRef, ctx);
 
   useImperativeHandle(ref, () => ({
@@ -148,6 +150,11 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
                                         {playbackData && playbackData.images && playbackData.images.map((img, idx) => (
                   <ImageLayer
                     key={`image-${idx}`}
+        onWheel={(e) => {
+                    e.preventDefault();
+                    if (e.deltaY < 0) viewportRef.current?.zoomIn();
+                    else viewportRef.current?.zoomOut();
+                  }}
                   image={img}
                                       canvasSize={{ width: canvasRef.current?.width || 800, height: canvasRef.current?.height || 600 }}
                   onUpdate={(updates) => {
@@ -179,6 +186,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
 
 Canvas.displayName = 'Canvas';
 export default Canvas;
+
 
 
 
