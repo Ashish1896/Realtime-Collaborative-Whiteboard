@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import { io } from 'socket.io-client';
+import ImageLayer from './imagelayer';
+import DrawingCanvas from './drawingcanvas';
 
 const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecordingUpdate }, ref) => {
   const canvasRef = useRef(null);
@@ -134,9 +136,32 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
       onMouseUp={stopDrawing}
       onMouseOut={stopDrawing}
       style={{ display: 'block', width: '100%', height: '100%', background: '#fff', touchAction: 'none' }}
+                                        {playbackData && playbackData.images && playbackData.images.map((img, idx) => (
+                  <ImageLayer
+                    key={`image-${idx}`}
+                  image={img}
+                                      canvasSize={{ width: canvasRef.current?.width || 800, height: canvasRef.current?.height || 600 }}
+                  onUpdate={(updates) => {
+                                        setPlaybackData(prev => {
+                                                                const newImages = [...prev.images];
+                                                                newImages[idx] = { ...newImages[idx], ...updates };
+                                                                return { ...prev, images: newImages };
+                                                              });
+                                        socketRef.current?.emit('updateImage', { index: idx, ...updates });
+                                      }}
+                  onRemove={() => {
+                                        setPlaybackData(prev => (
+                                                                { ...prev, images: prev.images.filter((_, i) => i !== idx) }
+                                                              ));
+                                        socketRef.current?.emit('removeImage', { index: idx });
+                                      }}
+                />
+                                ))}
+
     />
   );
 });
 
 Canvas.displayName = 'Canvas';
 export default Canvas;
+
