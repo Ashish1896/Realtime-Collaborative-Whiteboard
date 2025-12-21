@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 're
 import { io } from 'socket.io-client';
 import ImageLayer from './imagelayer';
 import DrawingCanvas from './drawingcanvas';
+import useUndoRedo from '../hooks/useUndoRedo';
 
 const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecordingUpdate }, ref) => {
   const canvasRef = useRef(null);
@@ -11,9 +12,11 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
   const [recordedHistory, setRecordedHistory] = useState([]);
   const socketRef = useRef(null);
   const startTimeRef = useRef(null);
+    const { recordDraw, recordClear, undo, redo, canUndo, canRedo } = useUndoRedo(canvasRef, ctx);
 
   useImperativeHandle(ref, () => ({
     clear: () => {
+            recordClear();
       const ctx = canvasRef.current.getContext('2d');
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       setRecordedHistory([]);
@@ -78,6 +81,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
     });
     
     drawFromData(point);
+      recordDraw(point);
     socketRef.current.emit('draw', point);
   };
 
@@ -96,6 +100,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
     });
     
     drawFromData(point);
+      recordDraw(point);
     socketRef.current.emit('draw', point);
   };
 
@@ -164,4 +169,5 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
 
 Canvas.displayName = 'Canvas';
 export default Canvas;
+
 
