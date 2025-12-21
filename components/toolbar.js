@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function Toolbar({ onClear, onReplay, onAutosave, isPlayback, hasHistory, canvasRef }) {
+export default function Toolbar({ onClear, onReplay, onAutosave, isPlayback, hasHistory, canvasRef, onUndo, onRedo, canUndo, canRedo }) {
   const [shortcutHelp, setShortcutHelp] = useState(false);
   const [brushMode, setBrushMode] = useState(true);
 
@@ -106,6 +106,44 @@ export default function Toolbar({ onClear, onReplay, onAutosave, isPlayback, has
         </div>
 
         {/* Action Buttons */}
+
+        {/* Undo/Redo Buttons */}
+        <button
+          onClick={onUndo}
+          disabled={!canUndo}
+          style={{
+            padding: '6px 12px',
+            borderRadius: '4px',
+            border: 'none',
+            background: canUndo ? '#4CAF50' : '#ccc',
+            color: 'white',
+            cursor: canUndo ? 'pointer' : 'not-allowed',
+            fontWeight: 'bold',
+            marginRight: '4px',
+            fontSize: '12px'
+          }}
+          title="Undo (Ctrl+Z)"
+        >
+          ↶ Undo
+        </button>
+        <button
+          onClick={onRedo}
+          disabled={!canRedo}
+          style={{
+            padding: '6px 12px',
+            borderRadius: '4px',
+            border: 'none',
+            background: canRedo ? '#2196F3' : '#ccc',
+            color: 'white',
+            cursor: canRedo ? 'pointer' : 'not-allowed',
+            fontWeight: 'bold',
+            marginRight: '4px',
+            fontSize: '12px'
+          }}
+          title="Redo (Ctrl+Y)"
+        >
+          ↷ Redo
+        </button>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <button 
             onClick={handleClearAutosave}
