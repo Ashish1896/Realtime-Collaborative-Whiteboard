@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import ImageLayer from './imagelayer';
 import DrawingCanvas from './drawingcanvas';
 import useUndoRedo from '../hooks/useUndoRedo';
+import ViewportManager from '../utils/ViewportManager';
 
 const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecordingUpdate }, ref) => {
   const canvasRef = useRef(null);
@@ -12,6 +13,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
   const [recordedHistory, setRecordedHistory] = useState([]);
   const socketRef = useRef(null);
   const startTimeRef = useRef(null);
+   const viewportRef = useRef(null);
     const { recordDraw, recordClear, undo, redo, canUndo, canRedo } = useUndoRedo(canvasRef, ctx);
 
   useImperativeHandle(ref, () => ({
@@ -48,6 +50,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
       if (!isPlaybackMode) drawFromData(data);
     });
 
+        viewportRef.current = new ViewportManager(canvasRef.current);
     return () => {
       window.removeEventListener('resize', resize);
       socketRef.current.disconnect();
@@ -134,6 +137,7 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
   }, [isPlaybackMode, playbackData]);
 
   return (
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
     <canvas
       ref={canvasRef}
       onMouseDown={startDrawing}
@@ -164,10 +168,17 @@ const Canvas = forwardRef(({ isPlaybackMode = false, playbackData = [], onRecord
                                 ))}
 
     />
-  );
+      <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '5px', zIndex: 10 }}>
+        <button onClick={() => viewportRef.current?.zoomIn()} style={{ padding: '8px 12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>🔍+</button>
+        <button onClick={() => viewportRef.current?.zoomOut()} style={{ padding: '8px 12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>🔍−</button>
+        <button onClick={() => viewportRef.current?.resetView()} style={{ padding: '8px 12px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Reset</button>
+      </div>
+    </div>
+);
 });
 
 Canvas.displayName = 'Canvas';
 export default Canvas;
+
 
 
