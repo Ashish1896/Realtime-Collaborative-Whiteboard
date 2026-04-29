@@ -1,166 +1,170 @@
-# Realtime-Collaborative-Whiteboard
+# Realtime Collaborative Whiteboard
 
-PROJECT OVERVIEW
+<div align="center">
 
-Realtime Collaborative Whiteboard
-A collaborative digital canvas where multiple users can draw, write, erase, and interact in real time using WebSockets (Socket.io).
-Purpose
-The goal of this project is to create a simple yet powerful online whiteboard where multiple users can draw together in real time.
+![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-61dafb?logo=react)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.8-black?logo=socket.io)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38bdf8?logo=tailwindcss)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?logo=typescript)
 
-This repository provides a **starter boilerplate** with:
-- Next.js project scaffold  
-- App Router structure (`/app` folder)
-- A basic `/board` page
-- Reusable React components (`Canvas`, `Toolbar`)
-- Initial Socket.io backend route
-- Clean folder structure ready for contributors
-  
-This project aims to create an easy, fast, and modern online whiteboard that can be used for:
-- Brainstorming sessions  
-- Online study discussions  
-- Classroom explanations  
-- Quick sketch sharing  
-- Collaborative design  
+**Real-time collaborative whiteboard with multi-user support**
 
-The goal is to build a scalable platform where contributors can add tools, improve UI, and enhance real-time syncing.
+[Report Bug](https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard/issues) | [Request Feature](https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard/issues)
 
----
-## Tech Stack
-
-### **Frontend**
-- Next.js (React-based framework)
-- React.js
-- Tailwind CSS (optional)
-- Socket.io-client
-
-### **Backend**
-- Next.js API route using Socket.io server
-
-## Features (Final Vision)
-- Real-time drawing synchronized across all connected users  
-- Multiple brush sizes & colors  
-- Eraser tool  
-- Live cursors (see where others are drawing)  
-- Clear board for all users  
-- Save board as image  
-- Chat sidebar (optional future feature)  
-- Authentication (future extension)
+</div>
 
 ---
 
-## Tech Stack
-- **Next.js** – Pages, routing, backend API routes  
-- **React.js** – UI components  
-- **Socket.io** – Real-time sync  
-- **Canvas API** – Drawing  
-- **TailwindCSS** (optional but recommended)
+## About The Project
+
+A real-time collaborative whiteboard application built with **Next.js** and **Socket.io** that enables multiple users to draw, collaborate, and brainstorm together in real-time. Forked from [IEE-PatchFest/Realtime-Collaborative-Whiteboard](https://github.com/IEE-PatchFest/Realtime-Collaborative-Whiteboard) with additional features.
+
+### My Contributions (Beyond Upstream)
+
+- **Mouse Wheel Zoom** - Pinch-to-zoom style zooming with mouse wheel
+- **Pan Support** - Click and drag to pan around the canvas
+- **useRoom Hook** - Custom React hook for managing room state and socket connections
+- **ViewportManager** - Advanced canvas viewport management for smooth panning/zooming
+- **Enhanced Canvas Tools** - Improved drawing experience with better tool handling
+
+### Key Features
+
+- **Real-time Collaboration** - Multiple users can draw simultaneously using Socket.io
+- **Room-based System** - Create and join rooms for private collaboration sessions
+- **Drawing Tools** - Pen, shapes, text, and eraser tools
+- **Zoom & Pan** - Smooth canvas navigation with mouse wheel zoom and drag-to-pan
+- **Responsive Design** - Works on desktop and tablet with TailwindCSS
+- **Room Hook** - Custom `useRoom` hook for clean state management
+
+### Built With
+
+- [Next.js 16](https://nextjs.org)
+- [React 19](https://react.dev)
+- [Socket.io](https://socket.io)
+- [TailwindCSS 4](https://tailwindcss.com)
+- [TypeScript](https://www.typescriptlang.org)
 
 ---
 
-my-whiteboard/
+## Getting Started
 
-│
+### Prerequisites
 
-├── app/
+- Node.js 18+
+- npm or yarn
 
-│   ├── page.js 
+### Installation
 
-│   ├── layout.js 
+1. Clone the repository
+```bash
+git clone https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard.git
+cd Realtime-Collaborative-Whiteboard
+```
 
-│   ├── globals.css
+2. Install dependencies
+```bash
+npm install
+```
 
-│   │
+3. Run the development server
+```bash
+npm run dev
+```
 
-│   ├── board/
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-│   │   └── page.js  
+### Production Build
 
-│   │
-
-│   └── api/
-
-│       └── socket/
-
-│           └── route.js 
-
-│
-
-├── components/
-
-│   ├── Canvas.js 
-
-│   └── Toolbar.js 
-
-│
-
-├── public/
-
-│   └── favicon.ico
-
-│
-
-├── package.json
-
-└── next.config.js
-
-
+```bash
+npm run build
+npm run start
+```
 
 ---
 
-## How It Works
-- The **Canvas component** captures user drawing events  
-- Events are broadcast via **Socket.io**  
-- Other clients receive the events and update their canvas
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Next.js dev server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
 
 ---
 
-## How to Contribute
+## Project Structure
 
-1. Pick an issue.
-2. Create a branch:
-   ```
-   git checkout -b feature/issue-name
-   ```
-3. Implement your feature  
-4. Open a Pull Request  
-5. Tag maintainers for review  
+```
+Realtime-Collaborative-Whiteboard/
+├── app/              # Next.js App Router pages
+├── components/       # Reusable React components
+├── hooks/            # Custom React hooks (useRoom)
+├── public/           # Static assets
+├── utils/            # Utility functions (ViewportManager)
+└── package.json
+```
 
 ---
 
-## Contributors can work on:
+## Roadmap
 
-Canvas
+- [ ] Add color picker with custom colors
+- [ ] Implement undo/redo functionality
+- [ ] Add image upload to canvas
+- [ ] Support for freehand drawing with pressure sensitivity
+- [ ] Add chat feature within rooms
+- [ ] Export canvas as image/PDF
+- [ ] Add user cursors (see others drawing in real-time)
+- [ ] Implement room password protection
+- [ ] Add shape library (arrows, rectangles, circles)
+- [ ] Mobile touch support for drawing
 
-Freehand drawing
+See the [open issues](https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard/issues) for a full list of proposed features.
 
-Erasing
+---
 
-Color picker
+## Contributing
 
-Brush sizes
+Contributions are what make the open source community amazing! Any contributions are **greatly appreciated**.
 
-Clear screen
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Sockets (Real-time)
+See `CONTRIBUTION_ROADMAP.md` for detailed contribution guidelines.
 
-Sync drawing strokes
+---
 
-User cursors
+## License
 
-Undo/redo sync
+Distributed under the MIT License.
 
-UI/UX
+---
 
-Better toolbar
+## Acknowledgments
 
-Responsive design
+- Original project by [IEE-PatchFest](https://github.com/IEE-PatchFest/Realtime-Collaborative-Whiteboard)
+- Built as part of IEEE PatchFest hackathon
 
-Multi-board rooms
+---
 
-Infra
+## Contact
 
-Deployment (Vercel)
+**Ashish Kumar Sahoo** - [@Ashish1896](https://github.com/Ashish1896)
 
-Rate limiting
+Project Link: [https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard](https://github.com/Ashish1896/Realtime-Collaborative-Whiteboard)
 
-Optimizing socket performance
+---
+
+<div align="center">
+
+If you like this project, please ⭐ star this repository!
+
+**Built with ❤️ in Bhubaneswar, India**
+
+</div>
